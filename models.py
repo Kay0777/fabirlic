@@ -1,20 +1,12 @@
 from datetime import datetime
-from sqlalchemy import Unicode, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, composite, relationship
+from sqlalchemy import Unicode
+from sqlalchemy.orm import composite, relationship
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy import DateTime, Integer, String, Boolean
 from phonenumbers.phonenumber import PhoneNumber
 
-DATABASE_PATH = "sqllite:///../database.db"
-
-engine = create_engine(DATABASE_PATH, connect_args={
-                       "check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=True, autoflush=False, bind=engine)
-
-Base = declarative_base()
-
+from database import Base
 
 class Distribution(Base):
     __tablename__ = "distributions"
@@ -32,7 +24,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, autoincrement=True, primary_key=True, index=True)
-    phone_number = composite(PhoneNumber, Column(Unicode(11), 'FI'))
+    # phone_number = composite(PhoneNumber, Column(Unicode(11), 'FI'))
     code_mobile_operator = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     child = relationship("Message", back_populates="users", uselist=False)
