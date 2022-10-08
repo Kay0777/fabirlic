@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Response, Header
+from fastapi import FastAPI, Header, Request, Response
 from fastapi.responses import JSONResponse, StreamingResponse
 
 from uvicorn import run as RunServer
@@ -65,7 +65,7 @@ async def video_streaming(start: str, end: str = None):
 async def video_streaming(filename: str, range: str = Header(None)):
     start, end = range.replace("bytes=", "").split("-")
     start = int(start)
-    end = int(start + 1024 * 1024)
+    end = start + 1024 * 1024
 
     file = f"{getcwd()}/{filename}"
 
